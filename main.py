@@ -39,8 +39,12 @@ def decrpyt() -> Dict:
     new_key_val = {}
 
     for key in key_val:
-      val = eval(key_val[key])
-
+      try:
+        val = eval(key_val[key])
+      except:
+        print("Please provide correct .env")
+        exit()
+    
       c1 = bytes.fromhex(val[0])
       c2 = bytes.fromhex(val[1])
 

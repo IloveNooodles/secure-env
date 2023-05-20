@@ -32,7 +32,10 @@ class EnvCrawler:
 
         for key in self.keyval:
            line = f"{key}={self.keyval[key]}\n"
-           f.write(line)
+           try:
+              f.write(line)
+           except:
+              print("Wrong password, decryption failed")
 
         f.close()
 

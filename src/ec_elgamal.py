@@ -45,6 +45,10 @@ class ECElgamal:
         # public
         self.Q = self.x * self.G
 
+        print("Your public key is: ")
+        print(self.get_public_key())
+        
+
     def get_public_key(self) -> Tuple[bytes, bytes]:
         """ 
         Return the public key of the ec elgamal 
@@ -70,8 +74,15 @@ class ECElgamal:
         Returns tuple of poin
         """
         # Generate random integer
+        assert(self.G != None)
+        assert(self.x != None)
+        assert(self.Q != None)
+
         k = getRandomInteger(self.n.bit_length())
         C1 = self.G * k
+
+        # Make sure C1 is on the curve
+        assert(self.is_point_on_curve(C1.x(), C1.y()))
 
         # Only interested in X part
         C2 = ((self.Q * k).x() + bytes_to_long(message)) % self.p
