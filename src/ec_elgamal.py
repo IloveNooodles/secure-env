@@ -60,6 +60,9 @@ class ECElgamal:
         """
         return self.EC.contains_point(x, y)
 
+    def get_eliptic_curve(self):
+        return self.EC
+
     def encrypt(self, message: bytes):
         """  
         Encrypt message

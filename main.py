@@ -1,7 +1,7 @@
 import os
 from Crypto.Util.number import long_to_bytes as l2b, bytes_to_long as b2l
 from src.env_crawler import EnvCrawler 
-from src.ec_elgamal import ECElgamal
+from src.ec_elgamal import ECElgamal, ellipticcurve
 from typing import Dict
 
 def encrypt() -> dict:
@@ -39,14 +39,20 @@ def decrpyt() -> Dict:
     new_key_val = {}
 
     for key in key_val:
-      val = key_val[key]
-      val_encoded = val.encode("latin-1")
-      c1, c2 = ec.encrypt(val_encoded)
+      val = eval(key_val[key])
 
-      new_key_val[key] = (c1.to_bytes().hex(), l2b(c2).hex())
-    
+      c1 = bytes.fromhex(val[0])
+      c2 = bytes.fromhex(val[1])
+
+      c1 = ellipticcurve.PointJacobi.from_bytes(curve=ec.get_eliptic_curve(), data=c1)
+      c2 = b2l(c2)
+
+      decrypted = ec.decrypt(c1, c2)
+      decrypted = decrypted.decode("latin-1")
+      new_key_val[key] = decrypted
+
     env.set_key_val(new_key_val)
-    env.write_file()
+    env.write_file(decrypt=True)
 
 def menu() -> None:
     print("Welcome to secure env")

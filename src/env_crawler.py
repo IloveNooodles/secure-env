@@ -23,8 +23,12 @@ class EnvCrawler:
     def set_key_val(self, new_key_val):
         self.keyval = new_key_val
 
-    def write_file(self):
-        f = open(f"{self.path}.enc", "w")
+    def write_file(self, decrypt=False):
+        if decrypt:
+          path = self.path.split(".enc")
+          f = open(path[0], "w")
+        else:
+          f = open(f"{self.path}.enc", "w")
 
         for key in self.keyval:
            line = f"{key}={self.keyval[key]}\n"
