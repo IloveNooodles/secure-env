@@ -1,5 +1,3 @@
-import os
-
 class EnvCrawler:
     def __init__(self, path: str) -> None:
         self.path = path
@@ -18,6 +16,12 @@ class EnvCrawler:
            self.keyval[key] = val
 
         f.close()
+
+    def get_key_val(self):
+        return self.keyval
+      
+    def set_key_val(self, new_key_val):
+        self.keyval = new_key_val
 
     def write_file(self):
         f = open(f"{self.path}.enc", "w")
